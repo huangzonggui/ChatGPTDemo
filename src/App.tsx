@@ -1,35 +1,62 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import { Container, TextField, Button, Box, Typography, GlobalStyles } from '@mui/material';
+import Chat from './components/Chat';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+  const [apiKey, setApiKey] = useState<string>('');
+  const [isApiKeySet, setIsApiKeySet] = useState<boolean>(false);
+
+  const handleSetApiKey = () => {
+    if (apiKey.trim() !== '') {
+      setIsApiKeySet(true);
+    }
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <GlobalStyles
+        styles={{
+          'input:-webkit-autofill': {
+            WebkitBoxShadow: '0 0 0px 1000px white inset !important',
+            filter: 'none',
+            WebkitTextFillColor: 'inherit !important',
+          },
+          'input:-internal-autofill-selected': {
+            backgroundColor: 'transparent !important',
+            WebkitBoxShadow: '0 0 0px 1000px white inset !important',
+            filter: 'none',
+          },
+        }}
+      />
+      <Container maxWidth="md" sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        py: 2,
+        mt: 4
+      }}>
+        {!isApiKeySet ? (
+          <Box display="flex" flexDirection="column" alignItems="center" gap={2}>
+            <Typography variant="h5">Enter OpenRouter API Key</Typography>
+            <TextField
+              label="API Key"
+              variant="outlined"
+              fullWidth
+              value={apiKey}
+              onChange={(e) => setApiKey(e.target.value)}
+            />
+            <Button variant="contained" onClick={handleSetApiKey}>
+              Submit
+            </Button>
+          </Box>
+        ) : (
+          <Chat apiKey={apiKey} />
+        )}
+      </Container>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
