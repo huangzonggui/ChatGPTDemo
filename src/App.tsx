@@ -28,7 +28,7 @@ const App: React.FC = () => {
           },
         }}
       />
-      <Container maxWidth="md" sx={{
+      <Container maxWidth="lg" sx={{
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
